@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ArticlePage from "./ArticlePage";
 
 const HomePage = () => {
   const [articles, setArticles] = useState([]);
@@ -20,13 +21,14 @@ const HomePage = () => {
     <div>
       <h1>Welcome to NC News</h1>
       {articles.map((article) => (
-        <div key={article.article_id} style={{ marginBottom: "1rem" }}>
-          <h3>
-            <Link to={`/articles/${article.article_id}`}>
-              {article.title}
-            </Link>
+        <div key={article.article_id}>
+          <h3 className="font-bold text-lg">
+            <Link to={`/articles/${article.article_id}`}>{article.title}</Link>
           </h3>
-          <p>By {article.author} | Votes: {article.votes} | Comments: {article.comment_count}</p>
+          <p className=" mb-4">
+            By {article.author} | Votes: {article.votes} | Comments:{" "}
+            {article.comment_count}
+          </p>
         </div>
       ))}
     </div>
