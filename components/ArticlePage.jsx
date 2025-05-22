@@ -7,6 +7,8 @@ function ArticlePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [comments, setComments] = useState([]);
+  const [voteChange, setVoteChange] = useState(0);
+  const [voteError, setVoteError] = useState(null);
 
 
   useEffect(() => {
@@ -41,42 +43,81 @@ function ArticlePage() {
     });
 }, [article_id]);
 
+const handleVote = (change) => {
+  setVoteChange((prev) => prev + change);
+    setVoteError(null);
+
+    fetch(`https://backend-project-e32q.onrender.com/api/articles/${article_id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ inc_votes: change }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to update votes");
+        }
+        return res.json();
+      }) 
+      .catch(() => {
+        setVoteChange((prev) => prev - change);
+        setVoteError("Failed to register vote. Please try again.");
+      });
+}
+
   if (isLoading) return <p>Loading article...</p>;
   if (error) return <p>{error}</p>;
 
-  return (
-    <><article>
-      <h2>{article.title}</h2>
-      <p><strong>By:</strong> {article.author}</p>
-      <p><strong>Topic:</strong> {article.topic}</p>
-      <p><strong>Posted:</strong> {new Date(article.created_at).toLocaleString()}</p>
-      <p>{article.body}</p>
-      <p><strong>Votes:</strong> {article.votes}</p>
+return (
+  <div className="bg-gray-900 min-h-screen text-white p-6">
+    <article className="max-w-3xl mx-auto bg-gray-800 p-6 rounded shadow-lg">
+      <h2 className="text-3xl font-bold text-pink-300 mb-2">{article.title}</h2>
+      <p className="text-sm text-pink-200 mb-4">
+        By <span className="font-medium">{article.author}</span> • Topic: <span className="italic">{article.topic}</span>
+      </p>
+      <p className="mb-4 text-gray-300">{article.body}</p>
+      <div className="flex items-center gap-4 mt-4">
+        <p className="text-pink-300">Votes: {article.votes + voteChange}</p>
+        <button
+          onClick={() => handleVote(1)}
+          className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+        >
+          + Upvote
+        </button>
+        <button
+          onClick={() => handleVote(-1)}
+          className="bg-pink-700 hover:bg-pink-800 text-white px-3 py-1 rounded"
+        >
+          - Downvote
+        </button>
+      </div>
+      {voteError && <p className="text-red-400 mt-2">{voteError}</p>}
     </article>
-    
-    <section className="mt-8">
-        <h3 className="text-2xl font-semibold mb-4">Comments</h3>
-        {comments.length === 0 ? (
-          <p className="text-gray-600">No comments yet.</p>
-        ) : (
-          <div className="space-y-4">
-            {comments.map((comment) => (
-              <div
-                key={comment.comment_id}
-                className="bg-white p-4 rounded-lg shadow border border-gray-200"
-              >
-                <p className="text-sm text-gray-500 mb-1">
-                  <span className="font-semibold text-gray-700">{comment.author}</span>
-                  &nbsp;•&nbsp; {new Date(comment.created_at).toLocaleString()}
-                </p>
-                <p className="text-gray-800">{comment.body}</p>
-              </div>
-            ))}
-          </div>
-        )}
-      </section></>
 
-  );
+    <section className="mt-10 max-w-3xl mx-auto">
+      <h3 className="text-2xl font-semibold text-pink-400 mb-4">Comments</h3>
+      {comments.length === 0 ? (
+        <p className="text-gray-400">No comments yet.</p>
+      ) : (
+        <div className="space-y-4">
+          {comments.map((comment) => (
+            <div
+              key={comment.comment_id}
+              className="bg-gray-800 p-4 rounded-lg border border-gray-700"
+            >
+              <p className="text-sm text-gray-400 mb-1">
+                <span className="font-semibold text-pink-300">{comment.author}</span>
+                &nbsp;•&nbsp; {new Date(comment.created_at).toLocaleString()}
+              </p>
+              <p className="text-gray-200">{comment.body}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  </div>
+);
 }
 
 export default ArticlePage;
