@@ -18,7 +18,7 @@ const HomePage = () => {
   if (isLoading) return <p>Loading articles...</p>;
 
   return (
- <div className="min-h-screen bg-gray-900 text-white px-6 py-10">
+    <div>
       <h1 className="text-4xl font-bold mb-10 text-pink-500">NC News</h1>
 
       <div className="space-y-5">
@@ -28,11 +28,15 @@ const HomePage = () => {
             className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-xl transition"
           >
             <h3 className="text-2xl font-semibold text-pink-400 mb-2">
-              <Link to={`/articles/${article.article_id}`}>{article.title}</Link>
+              <Link to={`/articles/${article.article_id}`}>
+                {article.title}
+              </Link>
             </h3>
             <p className="text-gray-300">
-              By <span className=" font-semibold">{article.author}</span> 
-              <span className="text-purple-400">{article.votes} votes</span> 
+              By <span className=" font-semibold">{article.author}</span>
+              <span className="text-purple-400 ml-2">
+                {article.votes} votes
+              </span>
             </p>
           </div>
         ))}
