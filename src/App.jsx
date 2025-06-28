@@ -1,9 +1,8 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, BrowserRouter } from "react-router-dom";
 import HomePage from "../components/HomePage";
 import ArticlePage from "../components/ArticlePage";
-import { BrowserRouter } from "react-router-dom";
-import TopicsList from "./components/TopicsList";
-import TopicPage from "./components/TopicPage";
+import TopicList from "../components/TopicList";
+import TopicPage from "../components/TopicPage";
 
 function App() {
   return (

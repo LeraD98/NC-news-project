@@ -9,7 +9,7 @@ const TopicPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`https://backend-project-e32q.onrender.com/api/articles?topic=${topic}`)
+    fetch(`http://localhost:9090/api/articles?topic=${topic}`)
       .then((res) => res.json())
       .then((data) => {
         setArticles(data.articles);
@@ -25,14 +25,19 @@ const TopicPage = () => {
 
   return (
     <div className="p-6 text-white">
-      <h2 className="text-3xl font-bold text-purple-300 mb-6">Articles in "{topic}"</h2>
+      <h2 className="text-3xl font-bold text-pink-300 mb-6">
+        Articles in "{topic}"
+      </h2>
       {articles.length === 0 ? (
         <p>No articles found for this topic.</p>
       ) : (
         articles.map((article) => (
           <div key={article.article_id} className="mb-4">
             <h3 className="text-xl font-semibold">
-              <Link to={`/articles/${article.article_id}`} className="text-purple-400 hover:underline">
+              <Link
+                to={`/articles/${article.article_id}`}
+                className="text-pink-400 hover:underline"
+              >
                 {article.title}
               </Link>
             </h3>
