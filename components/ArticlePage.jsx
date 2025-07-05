@@ -127,6 +127,10 @@ function ArticlePage() {
   return (
     <div>
       <article className="max-w-3xl mx-auto bg-gray-800 p-6 rounded shadow-lg">
+        <img src={article.article_img_url}
+        alt={`Image for ${article.title}`}
+        className="w-full max-h-64 object-cover rounded-lg mb-4"
+/>
         <h2 className="text-3xl font-bold text-pink-300 mb-2">
           {article.title}
         </h2>

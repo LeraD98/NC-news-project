@@ -7,6 +7,8 @@ const HomePage = () => {
   const [topics, setTopics] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [sortBy, setSortBy] = useState("created_at"); 
+  const [order, setOrder] = useState("desc");
 
   useEffect(() => {
     fetch("http://localhost:9090/api/topics")
@@ -17,18 +19,22 @@ const HomePage = () => {
   // Fetch articles (filtered if topic is selected)
   useEffect(() => {
     setIsLoading(true);
-    let url = "http://localhost:9090/api/articles";
-    if (selectedTopic) {
-      url += `?topic=${selectedTopic}`;
-    }
+  let url = "http://localhost:9090/api/articles";
+  const params = new URLSearchParams();
 
-    fetch(url)
-      .then((res) => res.json())
-      .then((data) => {
-        setArticles(data.articles);
-        setIsLoading(false);
-      });
-  }, [selectedTopic]);
+  if (selectedTopic) params.append("topic", selectedTopic);
+  if (sortBy) params.append("sort_by", sortBy);
+  if (order) params.append("order", order);
+
+  url += `?${params.toString()}`;
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      setArticles(data.articles);
+      setIsLoading(false);
+    });
+  }, [selectedTopic, sortBy, order]);
 
 
   if (isLoading) return <p>Loading articles...</p>;
@@ -63,6 +69,28 @@ const HomePage = () => {
         </div>
       </div>
 
+      <div className="mb-6 flex flex-wrap items-center gap-4">
+  <label className="text-white">
+    Sort by:{" "}
+    <select
+      value={sortBy}
+      onChange={(e) => setSortBy(e.target.value)}
+      className="bg-gray-800 text-white p-1 rounded"
+    >
+      <option value="created_at">Date</option>
+      <option value="votes">Votes</option>
+      <option value="comment_count">Comments</option>
+    </select>
+  </label>
+
+  <button
+    onClick={() => setOrder(order === "asc" ? "desc" : "asc")}
+    className="bg-purple-600 text-white px-3 py-1 rounded"
+  >
+    {order === "asc" ? "Ascending" : "Descending"}
+  </button>
+</div>
+
       {/* Articles */}
       <div className="space-y-5">
         {articles.map((article) => (
@@ -70,6 +98,11 @@ const HomePage = () => {
             key={article.article_id}
             className="bg-gray-800 p-6 rounded-lg shadow hover:shadow-xl transition"
           >
+            <img
+  src={article.article_img_url}
+  alt={`Image for ${article.title}`}
+  className="w-full max-h-64 object-cover rounded-lg mb-4"
+/>
             <h3 className="text-2xl font-semibold text-pink-400 mb-2">
               <Link to={`/articles/${article.article_id}`}>
                 {article.title}
