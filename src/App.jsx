@@ -3,6 +3,7 @@ import HomePage from "../components/HomePage";
 import ArticlePage from "../components/ArticlePage";
 import TopicList from "../components/TopicList";
 import TopicPage from "../components/TopicPage";
+import NotFound from "../components/NotFound"; 
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/articles/:article_id" element={<ArticlePage />} />
           <Route path="/topics/:topic" element={<TopicPage />} />
+          <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );
