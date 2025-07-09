@@ -17,6 +17,6 @@ Tech Stack
 - Tailwind CSS
 - React Router
 - Hosted backend API
-- Hosted on Netlify
+- Hosted on Netlify - https://lera-nc-news.netlify.app/
 
 This portfolio project was created as part of a Digital Skills Bootcamp in Software Engineering provided by [Northcoders](https://northcoders.com/)
