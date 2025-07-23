@@ -5,7 +5,7 @@ const TopicsList = () => {
   const [topics, setTopics] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/topics")
+    fetch("https://backend-project-e32q.onrender.com/api/topics")
       .then((res) => res.json())
       .then((data) => setTopics(data.topics));
   }, []);

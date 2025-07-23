@@ -9,7 +9,7 @@ const TopicPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    fetch(`http://localhost:9090/api/articles?topic=${topic}`)
+    fetch(`https://backend-project-e32q.onrender.com/api/articles?topic=${topic}`)
       .then((res) => res.json())
       .then((data) => {
         setArticles(data.articles);

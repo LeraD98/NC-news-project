@@ -16,7 +16,7 @@ function ArticlePage() {
   const loggedInUser = "grumpy19";
 
   useEffect(() => {
-    fetch(`http://localhost:9090/api/articles/${article_id}`)
+    fetch(`https://backend-project-e32q.onrender.com/api/articles/${article_id}`)  // Updated URL
       .then((res) => {
         if (!res.ok) {
           throw new Error("Article not found");
@@ -34,7 +34,7 @@ function ArticlePage() {
   }, [article_id]);
 
   useEffect(() => {
-    fetch(`http://localhost:9090/api/articles/${article_id}/comments`)
+    fetch(`https://backend-project-e32q.onrender.com/api/articles/${article_id}/comments`)  // Updated URL
       .then((res) => {
         if (!res.ok) throw new Error("Comments not found");
         return res.json();
@@ -51,7 +51,7 @@ function ArticlePage() {
     setVoteChange((prev) => prev + change);
     setVoteError(null);
 
-    fetch(`http://localhost:9090/api/articles/${article_id}`, {
+    fetch(`https://backend-project-e32q.onrender.com/api/articles/${article_id}`, {  // Updated URL
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ function ArticlePage() {
     setPosting(true);
     setPostError(null);
 
-    fetch(`http://localhost:9090/api/articles/${article_id}/comments`, {
+    fetch(`https://backend-project-e32q.onrender.com/api/articles/${article_id}/comments`, {  // Updated URL
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -106,7 +106,7 @@ function ArticlePage() {
   const handleDelete = (comment_id) => {
     setDeletingCommentIds((prev) => [...prev, comment_id]);
 
-    fetch(`http://localhost:9090/api/comments/${comment_id}`, {
+    fetch(`https://backend-project-e32q.onrender.com/api/comments/${comment_id}`, {  // Updated URL
       method: "DELETE",
     })
       .then((res) => {
@@ -127,10 +127,11 @@ function ArticlePage() {
   return (
     <div>
       <article className="max-w-3xl mx-auto bg-gray-800 p-6 rounded shadow-lg">
-        <img src={article.article_img_url}
-        alt={`Image for ${article.title}`}
-        className="w-full max-h-64 object-cover rounded-lg mb-4"
-/>
+        <img
+          src={article.article_img_url}
+          alt={`Image for ${article.title}`}
+          className="w-full max-h-64 object-cover rounded-lg mb-4"
+        />
         <h2 className="text-3xl font-bold text-pink-300 mb-2">
           {article.title}
         </h2>
