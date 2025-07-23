@@ -11,7 +11,7 @@ const HomePage = () => {
   const [order, setOrder] = useState("desc");
 
   useEffect(() => {
-    fetch("http://localhost:9090/api/topics")
+    fetch("https://backend-project-e32q.onrender.com/api/topics")
       .then((res) => res.json())
       .then((data) => setTopics(data.topics));
   }, []);
@@ -19,7 +19,7 @@ const HomePage = () => {
   // Fetch articles (filtered if topic is selected)
   useEffect(() => {
     setIsLoading(true);
-  let url = "http://localhost:9090/api/articles";
+  let url = "https://backend-project-e32q.onrender.com/api/articles";
   const params = new URLSearchParams();
 
   if (selectedTopic) params.append("topic", selectedTopic);
